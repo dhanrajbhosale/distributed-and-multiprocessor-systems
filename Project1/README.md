@@ -8,6 +8,7 @@ This repository contains code for the gRPC project in CSE 531.
 ## Overview
 
 The goal of this project is to build a distributed banking system that allows multiple customers to withdraw or deposit money from multiple branches. gRPC is used for communication between the customer and branch processes.
+![visualization](https://github.com/dhanrajbhosale/distributed-and-multiprocessor-systems/blob/2806a936aea7f5a60525014c80f0b318eb54faa6/Project1/architecture.png?raw=true)
 
 ## Usage
 
