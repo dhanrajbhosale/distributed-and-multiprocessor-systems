@@ -8,9 +8,10 @@ This repository contains code for the logical clock project in CSE 531.
 ## Overview
 
 The goal of this project is to implement Lamport's logical clock algorithm for ordering events in a distributed banking system. 
-
 Customers and branches are implemented as separate processes. Each process maintains its own logical clock. Events are ordered using the happens-before relationship.
+![visualization](https://github.com/dhanrajbhosale/distributed-and-multiprocessor-systems/blob/c7497d1d02d8dac0bf98ae59950e35c1394a69e6/Project2/image1.png?raw=true)
 
+![visualization](https://github.com/dhanrajbhosale/distributed-and-multiprocessor-systems/blob/c7497d1d02d8dac0bf98ae59950e35c1394a69e6/Project2/image2.png?raw=true)
 ## Usage
 
 1. Clone the repository
