@@ -1,0 +1,15 @@
+service Branch {
+  rpc MsgDelivery(BranchRequest) returns (BranchResponse) {}
+}
+
+message BranchRequest {
+    optional string interface = 1;
+    optional int64 id = 2;
+    optional int64 money = 3;
+}
+
+message BranchResponse {
+    optional string interface = 1;
+    optional string result = 2;
+    optional int64 balance = 3;
+}
