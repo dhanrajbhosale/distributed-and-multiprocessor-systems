@@ -9,9 +9,11 @@ This repository contains projects implemented for the Distributed Systems course
 - Used Python, gRPC, and protocol buffers
 - See project1/README.md for details
 
-### [Project 2 - Name](Project2) 
+### [Project 2 - Logical Clock Project](Project2) 
 
-- Short description
+- Implements Lamport's logical clock algorithm
+- Orders events between customer and branch processes
+- Uses protocol buffers for RPC communication
 - Details in project2/README.md
 
 ### [Project 3 - Name](Project3)

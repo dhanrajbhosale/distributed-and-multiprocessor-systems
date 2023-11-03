@@ -23,13 +23,13 @@ git clone https://github.com/dhanrajbhosale/distributed-and-multiprocessor-syste
 pip install -r requirements.txt 
 ```
 
-4. Run the branches
+3. Run the branches
 
 ```
 python start_branches.py
 ```
 
-5. In a separate terminal, run the customers
+4. In a separate terminal, run the customers
 
 ```
 python execute_customer_events.py

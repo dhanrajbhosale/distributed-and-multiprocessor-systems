@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+//message Event {
+//  string interface = 1;
+//  int32 money = 2;
+//  string result = 3;
+//  int32 id = 4;
+//  int32 clock = 5;
+//}
+//
+//service RPC {
+//    rpc MsgDelivery(Event) returns (Event) {}
+//}
+
+service RPC {
+  rpc MsgDelivery(BranchRequest) returns (BranchResponse) {}
+}
+
+message BranchRequest {
+    optional string interface = 1;
+    optional int64 id = 2;
+    optional int64 money = 3;
+    optional int64 clock = 4;
+    optional string type = 5;
+    optional int64 branch_id = 6;
+}
+
+message BranchResponse {
+    optional string interface = 1;
+    optional string result = 2;
+    optional int64 balance = 3;
+    optional int64 id = 4;
+    optional int64 clock = 5;
+    optional int64 eventid = 6;
+}
