@@ -3,18 +3,18 @@ This repository contains projects implemented for the Distributed Systems course
 
 ## Projects
 
-### [Project 1 - gRPC Banking](project1)
+### [Project 1 - gRPC Banking](Project1)
 
 - Implemented a banking system with customer and branch processes communicating via gRPC
 - Used Python, gRPC, and protocol buffers
 - See project1/README.md for details
 
-### [Project 2 - Name](project2) 
+### [Project 2 - Name](Project2) 
 
 - Short description
 - Details in project2/README.md
 
-### [Project 3 - Name](project3)
+### [Project 3 - Name](Project3)
 
 - Short description 
 - Details in project3/README.md
