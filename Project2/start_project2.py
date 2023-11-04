@@ -22,12 +22,16 @@ mutex = Lock()
 def worker(obj,readyQueue,returnDict):
     # Unique Process id
     id = obj['id']
+
     # Set the type (Branch, Customer) for the Process
     type = obj['type']
+
     # get the list of addresses of the branch
     branches = obj['branches']
+
     # Pointer for Customer
     customer = None
+
     # Pointer for Branch
     branch = None
 
@@ -35,15 +39,20 @@ def worker(obj,readyQueue,returnDict):
     if type == 'customer':
         # create customer instance
         customer = Customer(int(id), obj['customer-requests'])
+
         # set the customer process to ready
         readyQueue[len(branches) + customer.id - 1] = Global.READY
         print("DEBUG: In customer ", id, " readyQueue: ", readyQueue)
+
         # wait until all the other processes are ready
         Global.waitWorker(Global.READY, readyQueue)
+
         # create a gRPC stub for customer
         customer.createStub()
+
         # execute all the events from the input
         customer.executeEvents()
+
         # set the customer process to finish
         time.sleep(1)
         mutex.acquire(1)
@@ -54,22 +63,30 @@ def worker(obj,readyQueue,returnDict):
     elif type == 'branch':
         # get the replica of the balance of the Branch
         balance = obj['balance']
+
         # create a gRPC server
         server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+
         # create a branch instance
         branch = Branch(int(id), balance, branches)
+
         # extend the branch instance with the gRPC server
         example_pb2_grpc.add_RPCServicer_to_server(branch, server)
+
         # set the server port
         print('Starting server. Listening on port 5005'+str(id))
         server.add_insecure_port('[::]:5005'+str(id))
+
         # start the server
         server.start()
+
         # set the status of the branch process to ready
         readyQueue[int(id) - 1] = Global.READY
         print("DEBUG: In Branch ", id, " readyQueue: ", readyQueue)
+
         # wait until all the other processes are ready
         Global.waitWorker(Global.READY, readyQueue)
+
         # set the branch process to finish
         time.sleep(1)
         mutex.acquire(1)
@@ -88,7 +105,11 @@ def worker(obj,readyQueue,returnDict):
         time.sleep(1)
         returnDict[len(branches)+id] = customer.recvMsg
 
+def flatten_sum(matrix):
+    return sum(matrix, [])
+
 if __name__ == "__main__":
+
     # receive a json file as an input
     with open('input/input.json', 'r') as f:
         jsonObj = json.load(f)
@@ -166,12 +187,13 @@ if __name__ == "__main__":
                 "interface": interface,
                 "comment": comment
             })
+
     # Convert the output_data dictionary to JSON
     output_json = json.dumps(list(output_data.values()), indent=4)
     # Printing the formatted JSON
     print(output_json)
     with open("output/branch_output.json", "w") as outfile:
-        json.dump(output_data, outfile, indent=4)
+        json.dump(list(output_data.values()),outfile,indent=4)
 
     # Dictionary to store output data
     output_data = {}
@@ -206,7 +228,7 @@ if __name__ == "__main__":
     # Printing the formatted JSON
     print(output_json)
     with open("output/customer_output.json", "w") as outfile:
-        json.dump(output_data, outfile, indent=4)
+        json.dump(list(output_data.values()),outfile,indent=4)
 
 
     # PART-3
@@ -224,6 +246,7 @@ if __name__ == "__main__":
         # Add the current event to the list of the respective customer_request_id
         output_data[customer_request_id].append({
             "id": event["id"],
+            "customer_request_id":customer_request_id,
             "type": event["type"],
             "logical_clock": event["logical_clock"],
             "interface": event["interface"],
@@ -238,12 +261,16 @@ if __name__ == "__main__":
     output_json = json.dumps(list(output_data.values()), indent=4)
     #output_json = json.dumps(output_data, separators=(",", ":"))
 
+    result = []
+    result = flatten_sum(list(output_data.values()))
+
     # Printing the formatted JSON
-    print(output_json)
+    print(result)
 
     output_json = json.dumps(output_data)
     with open("output/events_output.json", "w") as outfile:
-        json.dump(output_data, outfile, indent=4)
+        #json.dump(list(output_data.values()),outfile)
+        json.dump(result,outfile,indent=4)
 
     #branch_output = dict()
     #for event in raw:
@@ -263,6 +290,7 @@ if __name__ == "__main__":
         print("Branch {0} events".format(id))
         print(events, len(events))
         print("--")
+        
     # iterate the events according to id
     for id,events in hashmap.items():
         # sort the events with names and clock
@@ -274,8 +302,8 @@ if __name__ == "__main__":
         rtnArray.append(('eventId:{}'.format(str(id)),sorted(temp, key=lambda x: x[1])))
 
 
-    # write the output file
-    #filename = sys.argv[1].split('.')[0]
-    filename="result"
-    with open(f"output/{filename}_output.json", "w") as outfile:
-        json.dump(rtnArray,outfile)
+    # # write the output file
+    # #filename = sys.argv[1].split('.')[0]
+    # filename="result"
+    # with open(f"output/{filename}_output.json", "w") as outfile:
+    #     json.dump(rtnArray,outfile,indent=4)
